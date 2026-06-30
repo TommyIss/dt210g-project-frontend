@@ -1,0 +1,143 @@
+header {
+    width: 100%;
+    background-color: #760031;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid black;
+    color: #F7F8F0;
+}
+
+nav {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    padding: 0;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px 1px #F7F8F0;
+}
+
+header nav ul li {
+    flex: 1;
+    text-align: center;
+    padding: 0;
+}
+
+.nav-link {
+    all: unset;
+    margin: 0;
+    text-decoration: none;
+    color: #F7F8F0;
+    white-space: nowrap;
+    padding: 0.75rem 1.25rem;
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.logout-btn {
+    all: unset;
+    margin: 0;
+    text-decoration: none;
+    color: #F7F8F0;
+    white-space: nowrap;
+    padding: 0.75rem 1.25rem;
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.nav-link:hover {
+    background-color: #FEEC41;
+    color: #760031;
+}
+
+.active {
+    background-color: #FEEC41;
+    color: #760031;
+}
+
+/* meny-knapp */
+.menu-btn {
+    all: unset;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    cursor: default; 
+}
+.menu-btn:hover {
+    background: none;
+}
+
+.menu-icon {
+    cursor: pointer; 
+    color: #F7F8F0;
+    margin: 0 2%;
+    padding: 0.25rem;
+    border: 1px solid #F7F8F0; 
+    border-radius: 6px;
+}
+
+.menu-icon:hover {
+    background-color: #7AAACE;
+}
+
+.postTitles, .showContentLinks {
+    text-decoration: none;
+    color: #760031;
+}
+
+.postTitles:hover, .showContentLinks:hover {
+    text-decoration: underline;
+    color: #7AAACE;
+}
+
+@media (max-width: 600px) {
+    .menu-btn {
+        display: inline-flex;
+        align-self: flex-end;
+        margin: 1% 2%;
+        padding: 0;
+    }
+
+    nav {
+        display: none;
+        width: 100%;
+    }
+
+    nav.open {
+        display: block;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        box-shadow: none;
+    }
+    header nav ul li {
+        flex: none;
+        width: 100%;
+    }
+
+    .nav-link {
+        width: 100%;
+    }
+}

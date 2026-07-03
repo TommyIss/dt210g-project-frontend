@@ -31,11 +31,11 @@ function Header() {
                             Startsida
                         </NavLink>
                     </li>
-                    {/* <li>
+                    <li>
                         <NavLink className="nav-link" to={'/movies'}>
                             Alla Filmer
                         </NavLink>
-                    </li> */}
+                    </li>
                     <li>
                         <NavLink 
                         className="nav-link"

@@ -36,9 +36,9 @@ textarea {
 }
 
 main article {
-  border: 1px solid #355872;
+  border: 1px solid #FEEC41;
   width: 300px;
-  height: 200px;
+  height: fit-content;
   padding: 1%;
   margin: 1% 0;
 }

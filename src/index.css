@@ -56,6 +56,14 @@ h2 {
   flex-wrap: wrap;
 }
 
+.movie {
+  margin: 3% 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: space-evenly;
+}
+
 .reg-link {
   text-decoration: underline;
   color: #760031;

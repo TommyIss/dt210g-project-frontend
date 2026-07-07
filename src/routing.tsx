@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import MoviesPage from "./pages/MoviesPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/movies',
                 element: <MoviesPage />
+            },
+            {
+                path: '/movies/:id',
+                element: <MovieDetailsPage />
             },
             {
                 path: '/profile',

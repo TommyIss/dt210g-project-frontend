@@ -34,7 +34,7 @@ function MovieDetailsPage() {
   const { id } = useParams();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [selectedReview] = useState<Review | null>(null);
   const baseUrl = "https://tois-dt210g-project-webservice.onrender.com/";
 
   const { user } = useAuth();

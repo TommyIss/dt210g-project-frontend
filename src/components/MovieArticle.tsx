@@ -29,7 +29,7 @@ function MovieArticle({
   onLike,
 }: MovieArticleProps) {
   const token = localStorage.getItem("token");
-  const baseUrl = "http://localhost:3000/";
+  const baseUrl = "https://tois-dt210g-project-webservice.onrender.com/";
   const { user } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const averageRating =
@@ -59,7 +59,6 @@ function MovieArticle({
         return;
       }
 
-      console.log(data);
       setReviews(data);
     } catch (error) {
       console.error(error);

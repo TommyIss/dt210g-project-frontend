@@ -107,7 +107,7 @@ function ReviewForm ({ createReview, updateReview, setFormType, formType, initia
                     setFormType && (
                         <>
                         <button type="submit">
-                            {formType === 'create' ? 'Skicka': 'Spara'}
+                            {formType === 'create' ? 'Publicera': 'Spara'}
                         </button>
                         <button onClick={() => setFormType(null)}>Avbryt</button>
                         </>

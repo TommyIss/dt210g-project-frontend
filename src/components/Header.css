@@ -1,6 +1,6 @@
 header {
     width: 100%;
-    background-color: #760031;
+    background-color: #850E35;
     padding: 1%;
     display: flex;
     flex-direction: column;
@@ -64,12 +64,12 @@ header nav ul li {
 }
 
 .nav-link:hover {
-    background-color: #FEEC41;
+    background-color: #FFC4C4;
     color: #760031;
 }
 
 .active {
-    background-color: #FEEC41;
+    background-color: #FFC4C4;
     color: #760031;
 }
 
@@ -100,15 +100,7 @@ header nav ul li {
     background-color: #7AAACE;
 }
 
-.postTitles, .showContentLinks {
-    text-decoration: none;
-    color: #760031;
-}
 
-.postTitles:hover, .showContentLinks:hover {
-    text-decoration: underline;
-    color: #7AAACE;
-}
 
 @media (max-width: 600px) {
     .menu-btn {

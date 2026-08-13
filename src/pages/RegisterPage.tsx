@@ -1,4 +1,3 @@
-import { useState } from "react";
 import UserForm from "../components/UserForm";
 import type { User } from "../types/auth.types";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,7 @@ function RegisterPage() {
     try {
 
       let url =
-        "http://localhost:3000/auth/register";
+        "https://tois-dt210g-project-webservice.onrender.com/auth/register";
 
       const response = await fetch(url, {
         method: "POST",

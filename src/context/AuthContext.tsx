@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     // Logga in användare
     async function login(credintials: LoginCredintials) {
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
+            const response = await fetch('https://tois-dt210g-project-webservice.onrender.com/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,8 +26,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             if(!response.ok) {
                 throw new Error('Inloggning misslyckades');
             }
-
-            console.log('Respons status:', response.status);
 
             const data = await response.json();
 
@@ -56,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/auth/profile', {
+            const response = await fetch('https://tois-dt210g-project-webservice.onrender.com/auth/profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

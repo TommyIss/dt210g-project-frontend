@@ -2,13 +2,13 @@ body {
   max-width: 1600px;
   margin: 0 auto;
   border: 1px solid black;
-  background-color: #FF6060;
+  background-color: #FCF5EE;
 }
 
 main {
   min-height: 400px;
-  background-color: #FF6060;
-  color: #760031;
+  background-color: #FCF5EE;
+  color: #850E35;
   margin: 0;
   padding: 1%;
   width: 100%;
@@ -17,7 +17,7 @@ main {
 }
 
 main button, main input[type='submit'] {
-  background-color: #760031;
+  background-color: #850E35;
   color: #F7F8F0;
   margin: 3% 2%;
   padding: 1%;
@@ -26,8 +26,8 @@ main button, main input[type='submit'] {
 }
 
 main button:hover, main input[type='submit']:hover {
-    background-color: #FEEC41;
-    color: #760031;
+  background-color: #FFC4C4;
+  color: #850E35;
 }
 
 textarea {
@@ -36,11 +36,14 @@ textarea {
 }
 
 main article {
-  border: 1px solid #FEEC41;
+  background-color: #EE6983;
+  border: 1px solid #850E35;
+  border-radius: 10px;
   width: 300px;
   height: fit-content;
   padding: 1%;
   margin: 1% 0;
+  color: #FCF5EE;
 }
 
 h2 {
@@ -64,23 +67,31 @@ h2 {
   justify-content: space-evenly;
 }
 
+.postTitles, .showContentLinks {
+    text-decoration: underline;
+    color: #FCF5EE;
+}
+
+.postTitles:hover, .showContentLinks:hover {
+    color: #FFC4C4;
+}
+
 .reg-link {
   text-decoration: underline;
-  color: #760031;
+  color: #850E35;
 }
 
 .reg-link:hover {
   background: none;
-  color: #FEEC41;
+  color: #FFC4C4;
 }
 
 .breadcrumbs-links {
   text-decoration: none;
-  color: #355872;
+  color: #850E35;
   margin: 0 3px;
 }
 
 .breadcrumbs-links:hover {
   text-decoration: underline;
-  color: #7AAACE;
 }

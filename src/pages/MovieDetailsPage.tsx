@@ -7,6 +7,8 @@ import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import ReviewForm from "../components/ReviewForm";
 import ReviewItem from "../components/ReviewItem";
+import Notification from "../components/Notification";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface MovieDetails extends Movie {
   overview: string;
@@ -33,14 +35,35 @@ function MovieDetailsPage() {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-  const baseUrl = "http://localhost:3000/";
+  const baseUrl = "https://tois-dt210g-project-webservice.onrender.com/";
 
   const { user } = useAuth();
   const location = useLocation();
   const [formType, setFormType] = useState<string | null>(null);
-  const averageRating = reviews.length > 0 ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1): null;
+  const averageRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, review) => sum + review.rating, 0) /
+          reviews.length
+        ).toFixed(1)
+      : null;
 
-  const userHasReview = reviews.some(r => r.user.id === user?.id);
+  const userHasReview = reviews.some((r) => r.user.id === user?.id);
+
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
+
+  function showNotification(
+    message: string,
+    type: "success" | "error" = "success",
+  ) {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  }
 
   useEffect(() => {
     getMovieDetails();
@@ -71,7 +94,7 @@ function MovieDetailsPage() {
 
   async function likeOrUnlikeMovie(likedByUser: boolean, id: number) {
     try {
-      let url = `http://localhost:3000/movie-like/${id}/like`;
+      let url = `https://tois-dt210g-project-webservice.onrender.com/movie-like/${id}/like`;
       let method = likedByUser ? "DELETE" : "POST";
 
       const response = await fetch(url, {
@@ -83,12 +106,20 @@ function MovieDetailsPage() {
       });
 
       if (!response.ok) {
+        showNotification("Ett fel vid like av film", "error");
         throw new Error("Ett fel vid like av film");
+      }
+      if (method === "DELETE") {
+        showNotification("Du har slutat gilla filmen", "success");
+      }
+      if (method === "POST") {
+        showNotification("Du har gillat filmen", "success");
       }
 
       getMovieDetails();
     } catch (err) {
       console.error(err);
+      showNotification("Ett fel vid like av film", "error");
     }
   }
 
@@ -111,7 +142,6 @@ function MovieDetailsPage() {
         return;
       }
 
-      console.log(data);
       setReviews(data);
     } catch (error) {
       console.error(error);
@@ -134,13 +164,20 @@ function MovieDetailsPage() {
       });
 
       if (response.ok) {
+        showNotification("Recension har skapats!", "success");
         getReviews();
         return true;
       }
 
+      showNotification("Ett fel vid skapandet av recension!", "error");
       return false;
     } catch (error) {
       console.error(error);
+
+      showNotification(
+        "Ett oförväntat fel vid skapandet av recension!",
+        "error",
+      );
       return false;
     }
   }
@@ -164,14 +201,17 @@ function MovieDetailsPage() {
       });
 
       if (!response.ok) {
+        showNotification("Ett fel vid uppdatering av recension!", "error");
         return false;
       }
 
+      showNotification("Recension har uppdaterats!", "success");
       getReviews();
 
       return true;
     } catch (error) {
       console.error(error);
+      showNotification("Ett fel vid skapandet av recension!", "error");
       return false;
     }
   }
@@ -189,17 +229,20 @@ function MovieDetailsPage() {
       });
 
       if (response.ok) {
+        showNotification("Recension har raderats!", "success");
         setReviews((prev) => prev.filter((review) => review.id !== id));
+      } else {
+        showNotification("Ett fel vid radering av recension!", "error");
+        return;
       }
     } catch (error) {
       console.error(error);
+      showNotification("Ett fel vid radering av recension!", "error");
     }
   }
 
   async function likeUnlikeReview(reviewId: number, liked: boolean) {
     try {
-        
-      console.log(liked);
       const method = liked ? "DELETE" : "POST";
       const response = await fetch(baseUrl + `review-like/${reviewId}/like`, {
         method: method,
@@ -209,6 +252,12 @@ function MovieDetailsPage() {
       });
 
       if (response.ok) {
+        if (method === "DELETE") {
+          showNotification("Du har slutat gilla recension!", "success");
+        }
+        if (method === "POST") {
+          showNotification("Du har gillat recension!", "success");
+        }
         setReviews((prev) =>
           prev.map((review) =>
             review.id === reviewId
@@ -220,14 +269,23 @@ function MovieDetailsPage() {
               : review,
           ),
         );
+      } else {
+        showNotification("Ett fel vid like av recension!", "error");
+        return;
       }
     } catch (error) {
       console.error(error);
+
+      showNotification("Ett oförväntat fel vid like av recension!", "error");
     }
   }
 
   return (
     <section>
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
+      <Breadcrumbs pageLabel="Alla filmer" itemLabel={movie?.title} />
       <h2>{movie?.title}</h2>
 
       {!movie && <p>laddar...</p>}
@@ -249,7 +307,8 @@ function MovieDetailsPage() {
           </p>
 
           <span>
-            <strong>Betyg: </strong>{averageRating ?? 'Inga betyg'} / 5
+            <strong>Betyg: </strong>
+            {averageRating ?? "Inga betyg"} / 5
           </span>
           <div>
             {user && (
@@ -303,22 +362,19 @@ function MovieDetailsPage() {
       )}
 
       <hr />
-      {(!reviews || reviews.length === 0) ? (
-        <p>
-            Inga recensioner har skapats för denna film!
-        </p>
-        ) : null}
+      {!reviews || reviews.length === 0 ? (
+        <p>Inga recensioner har skapats för denna film!</p>
+      ) : null}
       {reviews &&
         reviews.map((review) => (
           <ReviewItem
-          key={review.id}
+            key={review.id}
             review={review}
             onDelete={deleteReview}
             currentUserId={user?.id}
             onLike={likeUnlikeReview}
             updateReview={updateReview}
           />
-          
         ))}
     </section>
   );

@@ -12,7 +12,7 @@ function Header() {
 
     return(
         <header>
-            <h1>Moment 3</h1>
+            <h1>Projekt</h1>
             
             <button className="menu-btn">
 

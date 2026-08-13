@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import MovieArticle from "../components/MovieArticle";
+import Notification from "../components/Notification";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export interface Movie {
   id: number;
@@ -15,7 +17,6 @@ export interface Movie {
 }
 
 function MoviesPage() {
-
   const token = localStorage.getItem("token");
   const [movies, setMovies] = useState<Movie[]>([]);
   const tmdbToken = import.meta.env.VITE_TMDB_TOKEN;
@@ -24,18 +25,33 @@ function MoviesPage() {
   const [selectedGenre, setSelectedGenre] = useState<string>("Alla");
 
   const filtredMovies = movies
-    .filter((movie) =>
-      movie.title.toLowerCase().includes(searchPhrase.toLowerCase()),
-    )
-    .filter((movie) =>
-      selectedGenre === "Alla"
-        ? true
-        : movie.genres?.some((g) => g.name === selectedGenre),
-    );
+  .filter((movie) =>
+    movie.title.toLowerCase().includes(searchPhrase.toLowerCase().trim()),
+  )
+  .filter((movie) =>
+    selectedGenre === "Alla"
+      ? true
+      : movie.genres?.some(
+          (g) => g.name.trim().toLowerCase() === selectedGenre.trim().toLowerCase(),
+        ),
+  );
 
   const location = useLocation();
   const { user } = useAuth();
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
+  function showNotification(
+    message: string,
+    type: "success" | "error" = "success",
+  ) {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  }
   useEffect(() => {
     getMovies();
     localStorage.setItem("pathname", location.pathname);
@@ -61,7 +77,7 @@ function MoviesPage() {
 
       const results = await Promise.all(requests);
 
-      return results.flatMap((r) => r.results.map((m: { id: number}) => m.id));
+      return results.flatMap((r) => r.results.map((m: { id: number }) => m.id));
     } catch (err) {
       console.error(err);
     }
@@ -71,7 +87,7 @@ function MoviesPage() {
     try {
       const movies = await Promise.all(
         ids.map(async (id) => {
-          const response = await fetch("http://localhost:3000/movies/" + id, {
+          const response = await fetch("https://tois-dt210g-project-webservice.onrender.com/movies/" + id, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -97,7 +113,8 @@ function MoviesPage() {
       const ids = await getMoviesFromTMDB(5);
       if (!ids) return;
 
-      const movies = await getMoviesFromApi(ids);
+      const uniqueIds = [...new Set(ids)];
+      const movies = await getMoviesFromApi(uniqueIds);
       
       setMovies(movies);
     } catch (err) {
@@ -111,8 +128,7 @@ function MoviesPage() {
 
   async function likeOrUnlikeMovie(likedByUser: boolean, id: number) {
     try {
-      console.log(likedByUser);
-      let url = `http://localhost:3000/movie-like/${id}/like`;
+      let url = `https://tois-dt210g-project-webservice.onrender.com/movie-like/${id}/like`;
       let method = likedByUser ? "DELETE" : "POST";
 
       const response = await fetch(url, {
@@ -124,28 +140,29 @@ function MoviesPage() {
       });
 
       if (!response.ok) {
+        showNotification("Ett fel vid like av film", "error");
         throw new Error("Ett fel vid like av film");
       }
+      if (method === "DELETE") {
+        showNotification("Du har slutat gilla filmen", "success");
+      }
+      if (method === "POST") {
+        showNotification("Du har gillat filmen", "success");
+      }
 
-      // getMovies();
-      setMovies((prev) =>
-        prev.map((m) =>
-          m.id === id
-            ? {
-                ...m,
-                likedByUser: !likedByUser,
-                likesCount: m.likesCount + (likedByUser ? -1 : 1),
-              }
-            : m,
-        ),
-      );
+      getMovies();
     } catch (err) {
       console.error(err);
+      showNotification("Ett fel vid like av film", "error");
     }
   }
 
   return (
     <div>
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
+      <Breadcrumbs pageLabel="Alla filmer" />
       <h2>Filmer</h2>
 
       <hr />
@@ -161,6 +178,7 @@ function MoviesPage() {
       <select
         name="genre"
         id="genre"
+        value={selectedGenre}
         onChange={(e) => setSelectedGenre(e.target.value)}
       >
         <option value="Alla">Alla</option>
@@ -175,7 +193,7 @@ function MoviesPage() {
         Visar {filtredMovies.length} av {movies.length}
       </span>
       <div className="flex-container">
-        {filtredMovies.length === 0 && <p>Inga filmer har lagts till</p>}
+        {filtredMovies.length === 0 && <p>Laddar filmer...</p>}
         {filtredMovies.map((movie) => (
           <MovieArticle
             key={movie.id}

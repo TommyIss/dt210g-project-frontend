@@ -1,32 +1,14 @@
-# React + TypeScript + Vite
+# Projekt i kursen DT210G, Fördjupad frontend-utveckling
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Filmrecensionsplattform (Frontend)
+Denna applikation är frontend-delen av en filmrecensionsplattform utvecklad i React och TypeScript. Syftet är att erbjuda ett modernt, responsivt och användarvänligt gränsnitt där användare kan söka efter filmer, ta del av detaljerad information och skapa egna recensioner. Applikationen är integrerad med The Movie Database (TMDB) API, vilket gör det möjligt att hämta filmdata i realtid och presentera populära titlar, genrer och metadata direkt i gränsnittet. Frontend kommunicerar med ett eget backend-API som hanterar recensioner, gilla-markeringar, autentisering och användarroller. 
 
-Currently, two official plugins are available:
+### Tekniker och ramverk
+Applikationen är byggd med React och TypeScript, vilket ger en komponentbaserad struktur och statisk typning som gör koden mer robust och lättare att underhålla. React Router används för navigering mellan olika vyer, och state hanteras med Reacts inbyggda hooks. Kommunikationen med backend sker via REST-anrop, och all filmdata hämtas från TMDB API med hjälp av en servergenerard Bearer-token. Gränsnittet är responsivt och anpassat för både desktop samt mobila enheter.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Funktionalitet
+Filmdata och filmens detaljsidor är publika och kan ses av alla besökare utan att vara inloggade. Detta gör det möjligt att utforska filmer, läsa metadata och se recensioner direkt. För att kunna skriva egna recensioner, gilla både filmer samt andras recensioner eller hantera sitt konto behöver användaren skapa ett konto och logga in. Autentisering sker via JWT och frontend hanterar användarens session genom lagring av token.
+Inloggade användare kan skriva, uppdatera och ta bort sina egna recensioner. Gilla-funktionen är integrerad med backend och uppdateras i realtid, viklet gör att användaren direkt ser förändringar i antalet gilla-markeringar. Administratörer har utökade behörigheter och kan hantera andra användarens recensioner och aktiviteter, vilket skapar en mer komplett och realistisk plattform med tydlig rollhantering.
+Filmer kan filtreras baserat på titel eller genre, och varje film presenteras med titel, poster-bild, utgivningsdatum, genrer, antal gilla-markeringar och genomsnittligt betyg baserat på användarrecensioner. I filmens detaljvy visas ytterligare metadata samt alla recensioner kopplade till filmen.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+#### Tommy Issa, tois2401

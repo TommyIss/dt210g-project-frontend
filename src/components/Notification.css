@@ -1,0 +1,21 @@
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: lightgreen;
+    color: black;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.notification.error {
+    background: rgb(243, 57, 57);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
